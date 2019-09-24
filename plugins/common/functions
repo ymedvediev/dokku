@@ -1100,6 +1100,7 @@ acquire_advisory_lock() {
   else
     flock -n "$LOCK_FD" &>/dev/null || dokku_log_fail "$LOCK_FAILED_MSG"
   fi
+  echo "$DOKKU_PID" 1>&"$LOCK_FD"
 }
 
 release_advisory_lock() {
