@@ -4,6 +4,7 @@
 
 ```
 ps:inspect <app>                                                  # Displays a sanitized version of docker inspect for an app
+ps:kill-deploy <app>                                              # Kill app deploy
 ps:rebuild [--parallel count] [--all|<app>]                       # Rebuilds an app from source
 ps:report [<app>] [<flag>]                                        # Displays a process report for one or more apps
 ps:restart [--parallel count] [--all|<app>]                       # Restart an app
@@ -27,6 +28,20 @@ dokku ps:inspect node-js-app
 ```
 
 This command will gather all the running container IDs for your app and call `docker inspect`, sanitizing the output data so it can be copy-pasted elsewhere safely.
+
+### Killing app deploys
+
+> New as of 0.19.0
+
+It can be useful to kill a deploy if that deploy does not appear to be progressing, is impacting other apps through system resource utilization, or if a successful deploy will result in app errors. To do so, the `ps:kill-deploy` command can be used:
+
+```shell
+dokku ps:kill-deploy node-js-app
+```
+
+This command will send a `QUIT` signal to the Process Group ID of the process handling the deploy, and should terminate all processes within that process tree. Finally, it will unlock the deploy so that a new deploy may be immediately invoked.
+
+> Warning: This may also result in invalid app state depending upon when the app deploy was killed.
 
 ### Rebuilding apps
 
