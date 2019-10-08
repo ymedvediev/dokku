@@ -2,11 +2,10 @@
 set -eo pipefail
 [[ $DOKKU_TRACE ]] && set -x
 source "$PLUGIN_CORE_AVAILABLE_PATH/common/functions"
-source "$PLUGIN_AVAILABLE_PATH/ps/functions"
 
-ps_kill_deploy_cmd() {
-  declare desc="kill app deploy"
-  declare cmd="ps:kill-deploy"
+cmd-builds-kill() {
+  declare desc="kill a running build for an app"
+  declare cmd="builds:kill"
   [[ "$1" == "$cmd" ]] && shift 1
   declare APP="$1"
   verify_app_name "$APP"
