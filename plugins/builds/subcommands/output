@@ -3,14 +3,14 @@ set -eo pipefail
 [[ $DOKKU_TRACE ]] && set -x
 source "$PLUGIN_CORE_AVAILABLE_PATH/common/functions"
 
-cmd-builds-kill() {
-  declare desc="kill a running build for an app"
-  declare cmd="builds:kill"
+cmd-builds-output() {
+  declare desc="shows build output"
+  declare cmd="builds:output"
   [[ "$1" == "$cmd" ]] && shift 1
   declare APP="$1"
   verify_app_name "$APP"
 
-  local APP_DEPLOY_LOCK_FILE PROCESS_ID PROCESS_GROUP_ID
+  local APP_DEPLOY_LOCK_FILE PROCESS_ID
   APP_DEPLOY_LOCK_FILE="$DOKKU_ROOT/$APP/.deploy.lock"
   if [[ ! -f "$APP_DEPLOY_LOCK_FILE" ]]; then
     dokku_log_info1 "No matching app deploy found"
@@ -22,15 +22,6 @@ cmd-builds-kill() {
     dokku_log_info1 "No matching app deploy found"
     return
   fi
-
-  PROCESS_GROUP_ID="$(ps -o pgid= "$PROCESS_ID" || true)"
-  if [[ -z "$PROCESS_ID" ]]; then
-    dokku_log_info1 "No matching app deploy found"
-    return
-  fi
-
-  dokku_log_info1 "Killing app deploy"
-  kill -quit -- "-${PROCESS_GROUP_ID}" && rm -f "$DOKKU_ROOT/$APP/.deploy.lock"
 }
 
-ps_kill_deploy_cmd "$@"
+cmd-builds-output "$@"
