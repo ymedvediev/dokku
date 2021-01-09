@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  # pull_request:
+  #   branches:
+  #     - '*'
+  push:
+    branches:
+      - '*'
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: true
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: build package
+      run: ./tests/ci/setup.sh build
+
+    - name: upload packages
+      uses: actions/upload-artifact@v2
+      with:
+        name: build
+        path: build
