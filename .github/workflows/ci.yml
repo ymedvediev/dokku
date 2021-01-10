@@ -49,7 +49,7 @@ jobs:
 
     - name: run ci
       timeout-minutes: 10
-      run: sudo -E make -e test-ci-${{ matrix.index }}
+      run: sudo -E ./.github/commands/ci-run ${{ matrix.index }}
 
     - uses: actions/upload-artifact@v2
       with:
