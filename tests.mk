@@ -282,7 +282,7 @@ test: setup-deploy-tests lint unit-tests deploy-tests
 test-ci:
 	@mkdir -p test-results/bats
 	@cd tests/unit && echo "executing tests: $(shell cd tests/unit ; circleci tests glob *.bats | circleci tests split --split-by=timings --timings-type=classname | xargs)"
-	cd tests/unit && bats --formatter junit --timing -o ../../test-results/bats $(shell cd tests/unit ; circleci tests glob *.bats | circleci tests split --split-by=timings --timings-type=classname | xargs)
+	cd tests/unit && bats --report-formatter junit --timing -o ../../test-results/bats $(shell cd tests/unit ; circleci tests glob *.bats | circleci tests split --split-by=timings --timings-type=classname | xargs)
 
 tests-ci-retry-failed:
 	wget -qO /tmp/bats-retry.tgz https://github.com/josegonzalez/go-bats-retry/releases/download/v0.2.1/bats-retry_0.2.1_linux_x86_64.tgz
