@@ -8,6 +8,8 @@ main() {
   pushd tests/unit >/dev/null
   bats --formatter bats-format-junit -e -T -o ../../test-results/bats "$FILE_NAME.bats"
   popd >/dev/null
+
+  ls -lah test-results/bats
 }
 
 main "$@"
