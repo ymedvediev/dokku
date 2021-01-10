@@ -7,9 +7,6 @@ sudo apt -qq -y --no-install-recommends install net-tools
 ifconfig
 sudo ip addr add 10.0.0.2/24 broadcast 10.0.0.255 dev eth0
 
-echo "=====> ensure entropy"
-sudo apt -qq -y --no-install-recommends install rng-tools
-
 echo "=====> install ci-dependencies"
 make ci-dependencies
 
