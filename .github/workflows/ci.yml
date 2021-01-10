@@ -54,7 +54,7 @@ jobs:
     #     SSH_PASS: ${{ secrets.SSH_PASS }}
 
     - name: run ci
-      timeout-minutes: 10
+      timeout-minutes: 30
       run: sudo -E ./.github/commands/ci-run ${{ matrix.index }}
 
     - uses: actions/upload-artifact@v2
