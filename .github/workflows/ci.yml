@@ -40,7 +40,7 @@ jobs:
     needs: build
     runs-on: ubuntu-16.04
     strategy:
-      # fail-fast: true
+      fail-fast: false
       matrix: ${{fromJson(needs.build.outputs.matrix)}}
     steps:
     - uses: actions/checkout@v2
