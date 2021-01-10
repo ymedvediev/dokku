@@ -5,7 +5,7 @@ main() {
   declare FILE_NAME="$1"
   mkdir -p test-results/bats
   pushd tests/unit >/dev/null
-  bats --formatter bats-format-junit -e -T -o ../../test-results/bats "$FILE_NAME.bats"
+  bats "$FILE_NAME.bats"
   popd >/dev/null
 }
 
