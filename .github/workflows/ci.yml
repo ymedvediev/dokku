@@ -26,7 +26,7 @@ jobs:
     - name: write-matrix
       id: set-matrix
       run: |
-        matrix=$(python -c 'import os, json; keys = ["index"]; values = [os.listdir(".")]; zi = zip(keys, values); data = json.dumps(json.dumps(dict(zi))); print(data[1:-1]))
+        matrix=$(python -c 'import os, json; keys = ["index"]; values = [os.listdir(".")]; zi = zip(keys, values); data = json.dumps(json.dumps(dict(zi))); print(data[1:-1])')
         echo "::set-output name=matrix::$matrix"
 
     - name: upload packages
