@@ -3,6 +3,8 @@ set -eo pipefail
 
 main() {
   declare FILE_NAME="$1"
+  export DOKKU_TRACE=1
+  export TRACE=1
   mkdir -p test-results/bats
   pushd tests/unit >/dev/null
   bats "$FILE_NAME.bats"
