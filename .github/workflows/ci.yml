@@ -68,6 +68,65 @@ jobs:
         name: test-results-${{ matrix.index }}
         path: test-results
 
+  docker-deploy-tests:
+    name: docker
+    needs: build
+    runs-on: ubuntu-16.04
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: download packages
+      uses: actions/download-artifact@v1
+      with:
+        name: build
+
+    - name: ci-setup
+      run: ./.github/commands/ci-setup
+
+    - name: test docker deploys
+      shell: bash
+      timeout-minutes: 20
+      run: |
+        ./tests/ci/setup.sh docker
+        DOKKU_SSH_PORT=3022 sudo -E make -e test-ci-docker
+
+  go-tests:
+    env:
+      GITHUB_NODE_INDEX: ${{ matrix.index }}
+    name: go.${{ matrix.index }}
+    needs: build
+    runs-on: ubuntu-16.04
+    strategy:
+      fail-fast: true
+      matrix:
+        index: [0, 1, 2, 3]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: download packages
+      uses: actions/download-artifact@v1
+      with:
+        name: build
+
+    - name: ci-setup
+      run: ./.github/commands/ci-setup
+
+    - name: run pre-tests
+      run: |
+        export CIRCLE_SHA1=$GITHUB_SHA
+        case $GITHUB_NODE_INDEX in
+          0) sudo -E make -e lint-ci go-tests ci-go-coverage ;;
+          1) sudo -E make -e deploy-test-checks-root deploy-test-config ;;
+          2) sudo -E make -e deploy-test-multi ;;
+          3) sudo -E make -e deploy-test-go-fail-predeploy deploy-test-go-fail-postdeploy ;;
+        esac
+    - uses: actions/upload-artifact@v2
+      with:
+        name: coverage.${{ matrix.index }}.out
+        path: coverage.out
+
   publish-test-results:
     name: publish-test-results
     needs: unit-tests
