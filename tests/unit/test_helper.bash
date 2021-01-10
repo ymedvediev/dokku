@@ -18,7 +18,7 @@ SKIPPED_TEST_ERR_MSG="previous test failed! skipping remaining tests..."
 # global setup() and teardown()
 # skips remaining tests on first failure
 global_setup() {
-  [[ ! -f "${BATS_PARENT_TMPNAME}.skip" ]] || skip "$SKIPPED_TEST_ERR_MSG"
+  # [[ ! -f "${BATS_PARENT_TMPNAME}.skip" ]] || skip "$SKIPPED_TEST_ERR_MSG"
 
   free -m
   cleanup_apps
