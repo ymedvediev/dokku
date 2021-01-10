@@ -1,4 +1,5 @@
 #!/usr/bin/env bats
+set -x
 
 load test_helper
 

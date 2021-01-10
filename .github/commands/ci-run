@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -eo pipefail
+set -x
 
 main() {
   declare FILE_NAME="$1"
