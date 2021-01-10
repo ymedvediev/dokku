@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+main() {
+  declare PLUGIN_NAME="$1"
+  mkdir -p test-results/bats
+  push test-results/bats >/dev/null
+  bats --formatter bats-format-junit -e -T -o ../../test-results/bats "$(ls $PLUGIN_NAME-*.bats)"
+  popd >/dev/null
+}
+
+main "$@"

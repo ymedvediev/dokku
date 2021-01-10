@@ -26,3 +26,39 @@ jobs:
       with:
         name: build
         path: build
+
+  unit-tests:
+    name: unit.${{ matrix.index }}
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        index: [app-json, apps_1, apps_2, build-env, buildpacks, certs, checks, client, config-oddities, config, core_1, core_2, core_3, docker-options, domains, events, git_1, git_2, init, logs, network, nginx-vhosts_1, nginx-vhosts_2, nginx-vhosts_3, nginx-vhosts_4, nginx-vhosts_5, nginx-vhosts_6, nginx-vhosts_7, nginx-vhosts_8, plugin, proxy, ps-dockerfile-1, ps-dockerfile-2, ps-general, ps-herokuish-1, ps-herokuish-2, repo, report, resource_1, resource_2, scheduler-docker-local, ssh_keys, storage, tags, tar, trace, version]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: download packages
+      uses: actions/download-artifact@v1
+      with:
+        name: build
+
+    - name: ci-setup
+      run: ./.github/commands/ci-setup
+
+    - name: run ci
+      timeout-minutes: 10
+      run: sudo -E make -e test-ci-${{ matrix.index }}
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: test-results-${{ matrix.index }}
+        path: test-results
+
+    - name: publish unit test results
+      uses: docker://ghcr.io/enricomi/publish-unit-test-result-action:v1.6
+      if: always()
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        files: test-results/**/*.xml
