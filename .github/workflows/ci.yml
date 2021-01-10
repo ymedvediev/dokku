@@ -12,6 +12,8 @@ jobs:
   build:
     name: build
     runs-on: ubuntu-16.04
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     strategy:
       fail-fast: true
 
@@ -20,6 +22,12 @@ jobs:
 
     - name: build package
       run: ./tests/ci/setup.sh build
+
+    - name: write-matrix
+      id: set-matrix
+      run: |
+        matrix=$(python -c 'import os, json; keys = ["index"]; values = [os.listdir(".")]; zi = zip(keys, values); data = json.dumps(json.dumps(dict(zi))); print(data[1:-1]))
+        echo "::set-output name=matrix::$matrix"
 
     - name: upload packages
       uses: actions/upload-artifact@v2
@@ -33,9 +41,7 @@ jobs:
     runs-on: ubuntu-16.04
     strategy:
       # fail-fast: true
-      matrix:
-        index: [app-json, apps_1, apps_2, build-env, buildpacks, certs, checks, config-oddities, config, core_1, core_2, core_3, docker-options, domains, events, git_1, git_2, init, logs, network, nginx-vhosts_1, nginx-vhosts_2, nginx-vhosts_3, nginx-vhosts_4, nginx-vhosts_5, nginx-vhosts_6, nginx-vhosts_7, nginx-vhosts_8, nginx-vhosts_9, plugin, proxy, ps-dockerfile-1, ps-dockerfile-2, ps-general, ps-herokuish-1, ps-herokuish-2, repo, report, resource_1, resource_2, scheduler-docker-local, ssh_keys, storage, tags, tar, trace, version]
-        # client
+      matrix: ${{fromJson(needs.build.outputs.matrix)}}
     steps:
     - uses: actions/checkout@v2
 
