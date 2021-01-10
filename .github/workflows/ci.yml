@@ -47,6 +47,11 @@ jobs:
     - name: ci-setup
       run: ./.github/commands/ci-setup
 
+    - name: start ssh session
+      uses: luchihoratiu/debug-via-ssh@main
+      with:
+        SSH_PASS: ${{ secrets.SSH_PASS }}
+
     - name: run ci
       timeout-minutes: 10
       run: sudo -E ./.github/commands/ci-run ${{ matrix.index }}
