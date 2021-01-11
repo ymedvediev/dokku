@@ -5,5 +5,5 @@ import os
 keys = ["index"]
 values = [[s.replace(".bats", "") for s in os.listdir("tests/unit/") if s.endswith(".bats")]]
 zi = zip(keys, values)
-data = json.dumps(json.dumps(dict(zi)))
-print(data[1:-1].replace(" ", ""))
+data = json.dumps(dict(zi))
+print(data.replace(" ", ""))
