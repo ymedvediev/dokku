@@ -134,7 +134,7 @@ ci-go-coverage:
 	@$(MAKE) ci-go-coverage-plugin PLUGIN_NAME=network
 
 ci-go-coverage-plugin:
-	docker run --rm -ti \
+	docker run --rm \
 		-e DOKKU_ROOT=/home/dokku \
 		-e CODACY_TOKEN=$$CODACY_TOKEN \
 		-e CIRCLE_SHA1=$$CIRCLE_SHA1 \
@@ -154,7 +154,7 @@ go-tests:
 
 go-test-plugin:
 	@echo running go unit tests...
-	docker run --rm -ti \
+	docker run --rm \
 		-e DOKKU_ROOT=/home/dokku \
 		-e GO111MODULE=on \
 		-v $$PWD:$(GO_REPO_ROOT) \
