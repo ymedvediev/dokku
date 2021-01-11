@@ -23,7 +23,7 @@ teardown() {
 }
 
 @test "(client) no args should print help" {
-  run /bin/bash -c "${BATS_TEST_DIRNAME}/../../contrib/dokku_client.sh"
+  run /bin/bash -c "${BATS_TEST_DIRNAME}/../../contrib/dokku_client.sh 2>&1"
   echo "output: $output"
   echo "status: $status"
   assert_success
