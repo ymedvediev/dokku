@@ -97,10 +97,10 @@ endif
 setup-docker-deploy-tests: setup-deploy-tests
 ifdef ENABLE_DOKKU_TRACE
 	echo "-----> Enable dokku trace"
-	docker exec -ti dokku bash -c "dokku trace:on"
+	docker exec dokku bash -c "dokku trace:on"
 endif
-	docker exec -ti dokku bash -c "sshcommand acl-remove dokku test"
-	docker exec -ti dokku bash -c "echo `cat /root/.ssh/dokku_test_rsa.pub` | sshcommand acl-add dokku test"
+	docker exec dokku bash -c "sshcommand acl-remove dokku test"
+	docker exec dokku bash -c "echo `cat /root/.ssh/dokku_test_rsa.pub` | sshcommand acl-add dokku test"
 	$(MAKE) prime-ssh-known-hosts
 
 prime-ssh-known-hosts:
