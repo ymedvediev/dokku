@@ -25,7 +25,7 @@ jobs:
 
     - name: write-matrix
       id: set-matrix
-      run: echo "::set-output name=matrix::$(python .github/commands/matrix)"
+      run: echo -e "::set-output name=matrix::$(python .github/commands/matrix)"
 
     - name: upload packages
       uses: actions/upload-artifact@v2
