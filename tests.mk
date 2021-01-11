@@ -134,6 +134,7 @@ ci-go-coverage:
 	@$(MAKE) ci-go-coverage-plugin PLUGIN_NAME=network
 
 ci-go-coverage-plugin:
+	mkdir -p test-results/coverage
 	docker run --rm \
 		-e DOKKU_ROOT=/home/dokku \
 		-e CODACY_TOKEN=$$CODACY_TOKEN \
@@ -144,9 +145,9 @@ ci-go-coverage-plugin:
 		$(BUILD_IMAGE) \
 		bash -c "cd plugins/$(PLUGIN_NAME) && \
 			go get github.com/onsi/gomega github.com/schrej/godacov github.com/haya14busa/goverage && \
-			goverage -v -coverprofile=coverage.out && \
-			ls -lah ./coverage.out && \
-			godacov -r ./coverage.out -c $$CIRCLE_SHA1 -t $$CODACY_TOKEN" || exit $$?
+			goverage -v -coverprofile=./../../test-results/coverage/$(PLUGIN_NAME).out && \
+			ls -lah ./../../test-results/coverage/$(PLUGIN_NAME).out.out && \
+			godacov -r ./../../test-results/coverage/$(PLUGIN_NAME).out -c $$CIRCLE_SHA1 -t $$CODACY_TOKEN" || exit $$?
 
 go-tests:
 	@$(MAKE) go-test-plugin PLUGIN_NAME=common

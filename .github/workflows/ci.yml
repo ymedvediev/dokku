@@ -128,8 +128,8 @@ jobs:
         esac
     - uses: actions/upload-artifact@v2
       with:
-        name: coverage.${{ matrix.index }}.out
-        path: coverage.out
+        name: coverage.${{ matrix.index }}
+        path: test-results/coverage
 
   publish-test-results:
     name: publish-test-results
