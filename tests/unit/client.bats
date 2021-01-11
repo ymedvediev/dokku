@@ -23,6 +23,11 @@ teardown() {
 }
 
 @test "(client) no args should print help" {
+  run /bin/bash -c "${BATS_TEST_DIRNAME}/../../contrib/dokku_client.sh"
+  echo "output: $output"
+  echo "status: $status"
+  assert_success
+
   run /bin/bash -c "${BATS_TEST_DIRNAME}/../../contrib/dokku_client.sh | head -1 | grep -E 'Usage: dokku \[.+\] COMMAND <app>.*'"
   echo "output: $output"
   echo "status: $status"
