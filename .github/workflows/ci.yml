@@ -43,6 +43,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix: ${{fromJson(needs.build.outputs.matrix)}}
+
     steps:
     - uses: actions/checkout@v2
 
@@ -73,6 +74,8 @@ jobs:
     name: docker
     needs: build
     runs-on: ubuntu-16.04
+    strategy:
+      fail-fast: false
 
     steps:
     - uses: actions/checkout@v2
@@ -93,15 +96,15 @@ jobs:
         DOKKU_SSH_PORT=3022 sudo -E make -e test-ci-docker
 
   go-tests:
-    env:
-      GITHUB_NODE_INDEX: ${{ matrix.index }}
     name: go.${{ matrix.index }}
     needs: build
     runs-on: ubuntu-16.04
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         index: [0, 1, 2, 3]
+    env:
+      GITHUB_NODE_INDEX: ${{ matrix.index }}
 
     steps:
     - uses: actions/checkout@v2
