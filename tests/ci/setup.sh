@@ -100,7 +100,7 @@ check_container() {
   while true; do
     echo "$(date) [count: $cnt]: waiting for dokku startup"
     is_up=$(
-      docker exec -ti dokku ps -ef | grep "/usr/sbin/sshd -D" >/dev/null 2>&1
+      docker exec dokku ps -ef | grep "/usr/sbin/sshd -D" >/dev/null 2>&1
       echo $?
     )
     if [[ $is_up -eq 0 ]]; then
