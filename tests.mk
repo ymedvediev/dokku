@@ -145,6 +145,7 @@ ci-go-coverage-plugin:
 		bash -c "cd plugins/$(PLUGIN_NAME) && \
 			go get github.com/onsi/gomega github.com/schrej/godacov github.com/haya14busa/goverage && \
 			goverage -v -coverprofile=coverage.out && \
+			ls -lah && \
 			godacov -t $$CODACY_TOKEN -r ./coverage.out -c $$CIRCLE_SHA1" || exit $$?
 
 go-tests:
