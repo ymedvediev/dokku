@@ -13,7 +13,7 @@ jobs:
     name: build
     runs-on: ubuntu-16.04
     outputs:
-      matrix: ${{ steps.matrix.outputs.matrix }}
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     strategy:
       fail-fast: true
 
@@ -23,9 +23,12 @@ jobs:
     - name: build package
       run: ./tests/ci/setup.sh build
 
-    - name: write-matrix
-      id: matrix
-      run: echo ::set-output name=matrix::$(python .github/commands/matrix)
+    - name: set matrix for build
+      id: set-matrix
+      run: |
+        json=$(python .github/commands/matrix)
+        echo $json
+        echo "::set-output name=matrix::$(echo "$json")"
 
     - name: upload packages
       uses: actions/upload-artifact@v2
