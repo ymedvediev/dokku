@@ -6,4 +6,4 @@ keys = ["index"]
 values = [os.listdir("tests/unit/")]
 zi = zip(keys, values)
 data = json.dumps(json.dumps(dict(zi)))
-print(data[1:-1])
+print(data[1:-1].replace(" ", ""))

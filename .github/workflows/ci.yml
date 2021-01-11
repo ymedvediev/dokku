@@ -25,10 +25,7 @@ jobs:
 
     - name: write-matrix
       id: matrix
-      run: |
-        matrix=$(python .github/commands/matrix)
-        echo -e "\u001b[32mDetected matrix $matrix\u001b[0m"
-        echo "::set-output name=matrix::${matrix}"
+      run: echo ::set-output name=matrix::$(python .github/commands/matrix)
 
     - name: upload packages
       uses: actions/upload-artifact@v2
