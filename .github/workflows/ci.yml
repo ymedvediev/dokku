@@ -13,7 +13,7 @@ jobs:
     name: build
     runs-on: ubuntu-16.04
     outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      matrix: ${{ steps.matrix.outputs.matrix }}
     strategy:
       fail-fast: true
 
@@ -24,8 +24,11 @@ jobs:
       run: ./tests/ci/setup.sh build
 
     - name: write-matrix
-      id: set-matrix
-      run: echo ::set-output name=matrix::$(python .github/commands/matrix)
+      id: matrix
+      run: |
+        matrix=$(python .github/commands/matrix)
+        echo -e "\u001b[32mDetected matrix $matrix\u001b[0m"
+        echo "::set-output name=matrix::${matrix}"
 
     - name: upload packages
       uses: actions/upload-artifact@v2
