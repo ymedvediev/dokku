@@ -70,7 +70,11 @@ EOF
   echo "-----> Start debconf selections"
   sudo debconf-get-selections | grep ^dokku
   echo "-----> End debconf selections"
+
+  sleep 5
+  echo "-----> Start install $(cat "${ROOT_DIR}/build/deb-filename") via dpkg"
   sudo TRACE=1 dpkg -i "$(cat "${ROOT_DIR}/build/deb-filename")"
+  echo "-----> End install $(cat "${ROOT_DIR}/build/deb-filename") via dpkg"
 }
 
 build_dokku_docker_image() {
