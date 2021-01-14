@@ -120,6 +120,10 @@ jobs:
     - name: run pre-tests
       run: |
         export CIRCLE_SHA1=$GITHUB_SHA
+        echo "CODACY_TOKEN=$CODACY_TOKEN"
+        if [ "$CODACY_TOKEN" != "" ]; then
+          echo "Detected value for CODACY_TOKEN"
+        fi
         case $GITHUB_NODE_INDEX in
           0) sudo -E make -e lint-ci go-tests ci-go-coverage ;;
           1) sudo -E make -e deploy-test-checks-root deploy-test-config ;;
