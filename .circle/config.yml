@@ -1,0 +1,13 @@
+version: 2.1
+
+jobs:
+  noop:
+    docker:
+      - image: cimg/base:2020.01
+    steps:
+      - run: echo "this is a noop"
+
+workflows:
+  noop:
+    jobs:
+      - noop
