@@ -154,3 +154,4 @@ jobs:
         check_name: Unit Test Results
         github_token: ${{ secrets.GITHUB_TOKEN }}
         files: test-results/**/*.xml
+        comment_on_pr: false
