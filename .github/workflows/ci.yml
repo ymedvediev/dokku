@@ -117,7 +117,7 @@ jobs:
     - name: ci-setup
       run: ./.github/commands/ci-setup
 
-    - name: run pre-tests
+    - name: run go tests
       run: |
         export CIRCLE_SHA1=$GITHUB_SHA
         echo "CODACY_TOKEN=$CODACY_TOKEN"
